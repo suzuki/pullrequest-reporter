@@ -1,0 +1,102 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Pullrequest Report</title>
+    <style type="text/css">
+      html, body {
+        margin: 0px;
+        padding: 0px;
+      }
+      body {
+        background-color: #f5f8fa;
+      }
+      .center {
+        text-align: center;
+      }
+      .main {
+        width: 590px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .items {
+        list-style: none;
+      }
+      .item {
+        background-color: #ffffff;
+        border: 1px solid #e1e8ed;
+        border-radius: 6px;
+      }
+      .content {
+        margin-left: 58px;
+        padding: 6px;
+      }
+      .content-body {
+      }
+      .description {
+        height: 60px;
+        font-size: small;
+        overflow: hidden;
+        transition: height 0.5s;
+        background-color: #f4f4f4;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+      }
+      .avatar {
+        width: 48px;
+        heigh: 48px;
+        border-radius: 5px;
+        float: left;
+        margin-top: 3px;
+        margin-left: -58px;
+      }
+    </style>
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', function(e) {
+        var contents = document.querySelectorAll('.content');
+        for (var i = 0; i < contents.length; i++) {
+          contents[i].addEventListener('click', function(e) {
+            var target = this.querySelector('.description');
+            if (target.style.height == '' || target.style.height == '60px') {
+              target.style.height = '200px';
+              target.style.overflow = 'scroll';
+            } else {
+              target.style.height = '60px';
+              target.style.overflow = 'hidden';
+            }
+          });
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <h1 class="center">Pullrequest Report</h1>
+    <h4 class="center">From: {{ start }} - End: {{ end }}</h4>
+
+    <div class="main">
+      <ol class="items">
+        {% for info in infos %}
+          <li class="item">
+            <div class="content">
+              <div class="content-header">
+                <a class="account-group" href="{{ info.user.html_url }}">
+                  <img class="avatar" src="{{ info.user.avatar_url }}">
+                  <strong>{{ info.user.login }}</strong>
+                </a>
+                <small class="time">
+                  <span>{{ info.merged_at }}</span>
+                </small>
+              </div>
+              <div class="content-body">
+                <h4>
+                  <a href="{{ info.html_url }}">#{{ info.number }} {{ info.title }}</a>
+                </h4>
+                <p class="description">{{ info.body|escape('htm')|replace('\n', '<br>', 'g')|safe }}</p>
+              </div>
+              <div class="content-footer"></div>
+            </div>
+          </li>
+        {% endfor %}
+      </ol>
+    </div>
+  </body>
+</html>

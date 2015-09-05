@@ -1,0 +1,6 @@
+{
+  "user": "suzuki",
+  "repo": "pullrequest-reporter",
+  "host": "api.github.com",
+  "token": "YOUR_ACCESS_TOKEN"
+}
